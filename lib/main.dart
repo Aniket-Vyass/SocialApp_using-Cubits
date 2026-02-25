@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:small_social_app/firebase_options.dart';
+import 'package:small_social_app/features/auth/presentation/pages/login.dart';
+import 'package:small_social_app/themes/darkmode.dart';
+import 'package:small_social_app/themes/lightmode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Scaffold());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const LoginPage(),
+      theme: lightMode,
+      darkTheme: darkMode,
+    );
   }
 }
