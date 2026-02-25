@@ -1,46 +1,106 @@
 /*
 
-Firebase is our backend here
+FIREBASE IS OUR BACKEND HERE
 
 */
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:small_social_app/features/auth/domain/entities/app_user.dart';
 import 'package:small_social_app/features/auth/domain/repos/auth_repo.dart';
 
 class FirebaseAuthRepo implements AuthRepo {
+  //access to Firebase
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  //LOGIN: Emali & Password
   @override
-  Future<void> deleteAccount() {
-    // TODO: implement deleteAccount
-    throw UnimplementedError();
+  Future<AppUser?> loginWithEmailPassword(String email, String password) async {
+    try {
+      //attempt sign in/log in (same thing)
+      UserCredential userCredential = await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      //create user
+      AppUser user = AppUser(uid: userCredential.user!.uid, email: email);
+
+      //return user
+      return user;
+
+      //Catch any errors
+    } catch (e) {
+      throw Exception('Login Falied: $e');
+    }
   }
 
+  //REGISTER OR SIGN UP(same thing): Email & Password
   @override
-  Future<AppUser?> getCurrentUser() {
-    // TODO: implement getCurrentUser
-    throw UnimplementedError();
+  Future<AppUser?> registerWithEmailPassword(
+    String name,
+    String email,
+    String password,
+  ) async {
+    try {
+      //attempt sign up
+      UserCredential userCredential = await firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      //create user
+      AppUser user = AppUser(uid: userCredential.user!.uid, email: email);
+
+      //return user
+      return user;
+
+      //Catch any errors
+    } catch (e) {
+      throw Exception('Registration Falied: $e');
+    }
   }
 
+  //DELETE Account
   @override
-  Future<AppUser?> loginWithEmailPassword(String email, String password) {
-    // TODO: implement loginWithEmailPassword
-    throw UnimplementedError();
+  Future<void> deleteAccount() async {
+    try {
+      // get current user
+      final user = firebaseAuth.currentUser;
+
+      //check if there is a logged in user
+      if (user == null) throw Exception('No User logged in..');
+
+      //logout
+      await logout();
+    } catch (e) {
+      throw Exception('Failed to delete account: $e');
+    }
   }
 
+  //GET CURRENT USER
   @override
-  Future<AppUser?> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<AppUser?> getCurrentUser() async {
+    // get current logged in user form firebase
+    final firebaseUser = firebaseAuth.currentUser;
+
+    // check if logged in user or not
+    if (firebaseUser == null) return null;
+
+    // logged in user exists
+    return AppUser(uid: firebaseUser.uid, email: firebaseUser.email!);
   }
 
+  //LOGOUT
   @override
-  Future<AppUser?> registerWithEmailPassword(String email, String password) {
-    // TODO: implement registerWithEmailPassword
-    throw UnimplementedError();
+  Future<AppUser?> logout() async {
+    await firebaseAuth.signOut();
+    return null;
   }
 
+  // RESET PASSWORD
   @override
-  Future<String> sendPasswordResetEmail(String email) {
-    // TODO: implement sendPasswordResetEmail
-    throw UnimplementedError();
+  Future<String> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return "Password reset email! Check your inbox.";
+    } catch (e) {
+      return 'An error occoured $e';
+    }
   }
 }
