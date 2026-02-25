@@ -6,7 +6,7 @@ class MyTextfield extends StatelessWidget {
   final String hintText;
   final bool obscureText;
 
-  MyTextfield({
+  const MyTextfield({
     super.key,
     required this.hintText,
     required this.obscureText,
@@ -22,12 +22,17 @@ class MyTextfield extends StatelessWidget {
         //border when Selected
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary),
+          borderRadius: BorderRadius.circular(12),
         ),
 
         //border when Unselected
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
         ),
+        hintText: hintText,
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+        fillColor: Theme.of(context).colorScheme.secondary,
+        filled: true,
       ),
     );
   }

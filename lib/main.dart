@@ -1,26 +1,75 @@
+import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:small_social_app/features/auth/presentation/pages/login.dart';
+import 'package:small_social_app/features/auth/data/firebase_auth_repo.dart';
+import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:small_social_app/features/auth/presentation/cubits/auth_states.dart';
+import 'package:small_social_app/features/auth/presentation/pages/auth_page.dart';
+import 'package:small_social_app/features/home/presentation/pages/home_page.dart';
 import 'package:small_social_app/themes/darkmode.dart';
 import 'package:small_social_app/themes/lightmode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  // auth repo
+  final firebaseAuthRepo = FirebaseAuthRepo();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
-      theme: lightMode,
-      darkTheme: darkMode,
+    return MultiBlocProvider(
+      //providing the cubits to the app
+      providers: [
+        //auth cubit
+        BlocProvider<AuthCubit>(
+          create: (context) =>
+              AuthCubit(authRepo: firebaseAuthRepo)..checkAuth(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+
+        theme: lightMode,
+        darkTheme: darkMode,
+        /*
+
+        BLOC CONSUMER -Auth
+
+        */
+        home: BlocConsumer<AuthCubit, AuthState>(
+          builder: (context, state) {
+            print(state);
+            //unauthenticated
+            if (state is Unauthenticated) {
+              return AuthPage();
+            }
+
+            //authenticated
+            if (state is Authenticated) {
+              return const HomePage();
+            }
+            // loading..
+            else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+          //listen for state changes
+          listener: (context, state) {
+            if (state is AuthError) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            }
+          },
+        ),
+      ),
     );
   }
 }
