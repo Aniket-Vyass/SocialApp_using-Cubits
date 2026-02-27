@@ -7,6 +7,7 @@ Auth Page - Determines whether to show login or register page
 */
 
 import 'package:flutter/material.dart';
+import 'package:small_social_app/a/post.dart';
 import 'package:small_social_app/features/auth/presentation/pages/login_page.dart';
 import 'package:small_social_app/features/auth/presentation/pages/register_page.dart';
 
@@ -30,9 +31,10 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
-      return LoginPage(togglePages: togglePages);
+      return MyWidget(); //LoginPage(togglePages: togglePages);
     } else {
-      return RegisterPage(togglePages: togglePages);
+      return MyWidget();
+      //return RegisterPage(togglePages: togglePages);
     }
   }
 }
