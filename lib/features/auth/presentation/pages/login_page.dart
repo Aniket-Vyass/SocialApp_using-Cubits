@@ -179,7 +179,11 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
 
               //auth sign in with google
-              MyGoogleSignInButton(onTap: () {}),
+              MyGoogleSignInButton(
+                onTap: () async {
+                  authCubit.signInWithGoogle();
+                },
+              ),
 
               const SizedBox(height: 25),
 

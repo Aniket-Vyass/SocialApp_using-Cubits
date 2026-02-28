@@ -1,6 +1,6 @@
 /*
 
-  Auth Repository - Outlines the possible auth operations for this app
+  Auth Repository - Outlines the possible auth methods/operations for this app
 
   Any class that extends/implements it must provide the actual code for those methods
   in our case that is firebase_auth_repo.dart

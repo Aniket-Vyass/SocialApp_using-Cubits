@@ -106,6 +106,7 @@ class FirebaseAuthRepo implements AuthRepo {
   }
 
   //Sign In with Google
+  @override
   Future<AppUser?> signInWithGoogle() async {
     try {
       // create an instance first
