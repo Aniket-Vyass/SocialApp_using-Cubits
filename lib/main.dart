@@ -2,6 +2,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:small_social_app/features/auth/data/firebase_auth_repo.dart';
+import 'package:small_social_app/features/auth/presentation/components/loading.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:small_social_app/features/auth/presentation/pages/auth_page.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             print(state);
             //unauthenticated
             if (state is Unauthenticated) {
-              return AuthPage();
+              return const AuthPage();
             }
 
             //authenticated
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             }
             // loading..
             else {
-              return Center(child: CircularProgressIndicator());
+              return LoadingScreen();
             }
           },
           //listen for state changes

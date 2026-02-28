@@ -5,6 +5,7 @@ FIREBASE IS OUR BACKEND HERE
 */
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:small_social_app/features/auth/domain/entities/app_user.dart';
 import 'package:small_social_app/features/auth/domain/repos/auth_repo.dart';
 
@@ -98,9 +99,53 @@ class FirebaseAuthRepo implements AuthRepo {
   Future<String> sendPasswordResetEmail(String email) async {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
-      return "Password reset email! Check your inbox.";
+      return "Password reset email sent! Check your inbox!";
     } catch (e) {
       return 'An error occoured $e';
+    }
+  }
+
+  //Sign In with Google
+  Future<AppUser?> signInWithGoogle() async {
+    try {
+      // create an instance first
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      // now call .signIn() on the instance
+      final GoogleSignInAccount? gUser = await googleSignIn.signIn();
+
+      //user cancelled sign-in
+      if (gUser == null) return null;
+
+      //obtain the auth details from the request
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+
+      //create a credential for the user
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      //sign-in with these credentials
+      UserCredential userCredential = await firebaseAuth.signInWithCredential(
+        credential,
+      );
+
+      //firebase user
+      final firebaseUser = userCredential.user;
+
+      //user cancelled the sign-in
+      if (firebaseUser == null) return null;
+
+      AppUser appUser = AppUser(
+        uid: firebaseUser.uid!,
+        email: firebaseUser.email ?? '',
+      );
+
+      return appUser;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }
