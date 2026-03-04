@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -20,7 +20,7 @@ class MyDrawer extends StatelessWidget {
             ),
 
             //home tile
-            Icon(Icons.home, color: Theme.of(context).colorScheme.primary),
+            MyDrawerTile(title: 'H O M E', icon: Icons.home),
 
             //search tiles
             Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
