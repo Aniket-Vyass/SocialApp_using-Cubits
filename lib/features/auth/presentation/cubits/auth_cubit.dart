@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 /*
 
-  Cubits are responsible for state management -> to show the appropriate dadta on the screen
+  Cubits are responsible for state management -> to show the appropriate data on the screen
 
 */
 import 'package:bloc/bloc.dart';
@@ -19,6 +19,12 @@ class AuthCubit extends Cubit<AuthState> {
   AppUser? get currentUser => _currentUser;
 
   // Check if the user is authenticated
+  /*Kaam kya karta hai:
+App start hoti hai → checkAuth() chalta hai
+→ Firebase se poochta hai "koi pehle se logged in hai kya?"
+→ agar hai toh seedha HomePage → agar nahi toh AuthPage — bina user ko dobara login karaye.
+👇
+  */
   void checkAuth() async {
     //loading..
     emit(AuthLoading());
@@ -57,7 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
       final user = await authRepo.registerWithEmailPassword(name, email, pw);
-
+      //matlab ab user register ho gaya hai to not null hoga
       if (user != null) {
         _currentUser = user;
         emit(Authenticated(user));
