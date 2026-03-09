@@ -1,137 +1,55 @@
 import 'package:flutter/material.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class Post extends StatelessWidget {
+  final String username;
+  final String profileImage;
+  final String imageUrl;
+  final String caption;
 
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
+  const Post({
+    super.key,
+    required this.username,
+    required this.profileImage,
+    required this.imageUrl,
+    required this.caption,
+  });
 
-class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
       color: Colors.white,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        //mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // 1. Header - Username & more options
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    // Profile picture
-                    CircleAvatar(
-                      radius: 20,
-                      child: Icon(Icons.circle),
-                      //backgroundImage: Icon(Icons.add),
-                    ),
-                    SizedBox(width: 10),
-                    // Username
-                    Text(
-                      'username',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                // More options icon
-                Icon(Icons.more_vert),
-              ],
+          ListTile(
+            leading: Icon(Icons.person),
+            title: const Text(
+              'username',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-
-          // 2. Post Image
           Image.network(
-            'post_image_url',
-            fit: BoxFit.cover,
+            'https://picsum.photos/500',
             width: double.infinity,
-            height: 400,
+            height: 402,
           ),
-
-          // 3. Like, comment, save icons
+          const SizedBox(height: 2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.comment_outlined)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.send)),
+            ],
+          ),
           Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.favorite_border),
-                    SizedBox(width: 15),
-                    Icon(Icons.comment),
-                    SizedBox(width: 15),
-                    Icon(Icons.share),
-                  ],
-                ),
-                Icon(Icons.bookmark_border),
-              ],
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text('username  This is the caption of the post... '),
           ),
-
-          // 4. Likes count
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                '1,234 likes',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-
-          // 5. Caption
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'username ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'This is the caption text',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // 6. View all comments
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'View all 45 comments',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-          ),
-
-          // 7. Timestamp
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                '2 hours ago',
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-            ),
-          ),
-
-          Divider(),
+          SizedBox(height: 20),
         ],
       ),
     );
