@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
+import 'package:small_social_app/features/auth/presentation/pages/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -10,27 +11,70 @@ class MyDrawer extends StatelessWidget {
     return SafeArea(
       child: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            Icon(
-              Icons.person,
-              size: 80,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Icon(
+                  Icons.person,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
 
-            //home tile
-            MyDrawerTile(title: 'H O M E', icon: Icons.home),
+              //Divider line
+              Divider(color: Theme.of(context).colorScheme.secondary),
 
-            //search tiles
-            Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+              //home tile
+              MyDrawerTile(
+                title: 'H O M E',
+                icon: Icons.home,
+                onTap: () => Navigator.of(context).pop(),
+              ),
 
-            //settings tile
-            Icon(Icons.settings, color: Theme.of(context).colorScheme.primary),
+              //Profile tile
+              MyDrawerTile(
+                title: 'P R O F I L E',
+                icon: Icons.home,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                },
+              ),
 
-            //logout tile
-            Icon(Icons.logout, color: Theme.of(context).colorScheme.primary),
-          ],
+              //search tiles
+              MyDrawerTile(
+                title: 'S E A R C H',
+                icon: Icons.search,
+                onTap: null,
+              ),
+
+              //settings tile
+              MyDrawerTile(
+                title: 'S E T T I N G S',
+                icon: Icons.settings,
+                onTap: () {},
+              ),
+
+              //spacer
+              const Spacer(),
+
+              //logout tile
+              MyDrawerTile(
+                title: 'L O G O U T',
+                icon: Icons.logout,
+                onTap: () {},
+              ),
+
+              SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );
