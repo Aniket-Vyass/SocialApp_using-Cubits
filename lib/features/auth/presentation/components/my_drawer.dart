@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
-import 'package:small_social_app/features/auth/presentation/pages/profile_page.dart';
+import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:small_social_app/features/profile/presentation/pages/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -69,7 +70,10 @@ class MyDrawer extends StatelessWidget {
               MyDrawerTile(
                 title: 'L O G O U T',
                 icon: Icons.logout,
-                onTap: () {},
+                onTap: () {
+                  final authCubit = context.read<AuthCubit>();
+                  authCubit.logout();
+                },
               ),
 
               SizedBox(height: 40),

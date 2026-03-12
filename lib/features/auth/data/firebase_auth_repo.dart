@@ -22,7 +22,11 @@ class FirebaseAuthRepo implements AuthRepo {
           .signInWithEmailAndPassword(email: email, password: password);
 
       //create user
-      AppUser user = AppUser(uid: userCredential.user!.uid, email: email);
+      AppUser user = AppUser(
+        uid: userCredential.user!.uid,
+        email: email,
+        name: '',
+      );
 
       //return user
       return user;
@@ -46,7 +50,11 @@ class FirebaseAuthRepo implements AuthRepo {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       //create user
-      AppUser user = AppUser(uid: userCredential.user!.uid, email: email);
+      AppUser user = AppUser(
+        uid: userCredential.user!.uid,
+        email: email,
+        name: '',
+      );
 
       //return user
       return user;
@@ -84,7 +92,7 @@ class FirebaseAuthRepo implements AuthRepo {
     if (firebaseUser == null) return null;
 
     // logged in user exists
-    return AppUser(uid: firebaseUser.uid, email: firebaseUser.email!);
+    return AppUser(uid: firebaseUser.uid, email: firebaseUser.email!, name: '');
   }
 
   //LOGOUT
@@ -141,6 +149,7 @@ class FirebaseAuthRepo implements AuthRepo {
       AppUser appUser = AppUser(
         uid: firebaseUser.uid!,
         email: firebaseUser.email ?? '',
+        name: '',
       );
 
       return appUser;
