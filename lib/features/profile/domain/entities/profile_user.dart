@@ -40,8 +40,8 @@ class ProfileUser extends AppUser {
       uid: json['uid'],
       email: json['email'],
       name: json['name'],
-      bio: json['bio'],
-      profileImageUrl: json['profileImageUrl'],
+      bio: json['bio'] ?? '',
+      profileImageUrl: json['profileImageUrl'] ?? '',
     );
   }
 }
