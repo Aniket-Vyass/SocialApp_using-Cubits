@@ -17,6 +17,8 @@ class ProfileLoading extends ProfileState {}
 //loaded..
 class ProfileLoaded extends ProfileState {
   ProfileLoaded(ProfileUser user);
+
+  get profileUser => null;
 }
 
 //error

@@ -6,7 +6,10 @@ import 'package:small_social_app/features/auth/presentation/components/loading.d
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:small_social_app/features/auth/presentation/pages/auth_page.dart';
+import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
 import 'package:small_social_app/features/home/presentation/pages/home_page.dart';
+import 'package:small_social_app/features/profile/data/firebase_profile_repo.dart';
+import 'package:small_social_app/features/profile/domain/repo/profile_repo.dart';
 import 'package:small_social_app/themes/darkmode.dart';
 import 'package:small_social_app/themes/lightmode.dart';
 
@@ -22,6 +25,9 @@ class MyApp extends StatelessWidget {
   // auth repo
   final firebaseAuthRepo = FirebaseAuthRepo();
 
+  //profile repo
+  final profileRepo = FirebaseProfileRepo();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (context) =>
               AuthCubit(authRepo: firebaseAuthRepo)..checkAuth(),
+        ),
+
+        //profile cubit
+        BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit(profileRepo: profileRepo),
         ),
       ],
       child: MaterialApp(

@@ -39,11 +39,22 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, state) {
         //loaded
         if (state is ProfileLoaded) {
+          //get loaded user
+          final user = state.profileUser;
+
           return Scaffold(
             //APP BAR
             appBar: AppBar(
-              title: Text(currentUser!.email),
+              title: Text(user.name),
               foregroundColor: Theme.of(context).colorScheme.primary,
+            ),
+
+            //body
+            body: Column(
+              children: [
+                //email
+                Center(child: Text(user.email)),
+              ],
             ),
           );
         }
