@@ -2,11 +2,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:small_social_app/features/auth/domain/entities/app_user.dart';
-import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_states.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -21,6 +16,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String username = '';
   String profileImage = '';
   String postCount = '0';
+  List<Map<String, dynamic>> posts = [];
 
   @override
   void initState() {
@@ -56,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (mounted) {
       setState(() {
         postCount = snapshot.docs.length.toString();
+        posts = snapshot.docs.map((doc) => doc.data()).toList();
       });
     }
   }
@@ -65,16 +62,14 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(username)),
-      body: DefaultTabController(
-        length: 3,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Row(
+      //appBar: AppBar(title: Text(username)),
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 3,
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-
                 children: [
                   Column(
                     children: [
@@ -115,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 23),
+                    padding: const EdgeInsets.only(bottom: 39),
                     child: Row(
                       children: [
                         Column(
@@ -186,8 +181,67 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 80),
+              //TAB BAR
+              TabBar(
+                tabs: [
+                  Tab(icon: Icon(Icons.grid_on)),
+                  Tab(icon: Icon(Icons.image)),
+                  Tab(icon: Icon(Icons.video_collection)),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    //TAB 1: all posts
+                    GridView.builder(
+                      padding: EdgeInsets.all(2),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                      ),
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        final imageUrl = posts[index]['imageUrl'] ?? '';
+                        return imageUrl.isNotEmpty
+                            ? Image.network(imageUrl, fit: BoxFit.cover)
+                            : Container(color: Colors.grey);
+                      },
+                    ),
+
+                    //TAB 2: ONLY IMAGES
+                    GridView.builder(
+                      padding: EdgeInsets.all(2),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                      ),
+                      itemCount: 0,
+                      itemBuilder: (context, index) {
+                        return Container(color: Colors.grey);
+                      },
+                    ),
+
+                    //TAB 3: ONLY VIDEOS/REELS
+                    GridView.builder(
+                      padding: EdgeInsets.all(2),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                      ),
+                      itemCount: 0,
+                      itemBuilder: (context, index) {
+                        return Container(color: Colors.grey);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
