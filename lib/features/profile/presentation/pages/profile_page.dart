@@ -4,8 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
-  const ProfilePage({Key? key, required this.uid}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -17,6 +16,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String profileImage = '';
   String postCount = '0';
   List<Map<String, dynamic>> posts = [];
+  List<Map<String, dynamic>> imagePosts = [];
+  List<Map<String, dynamic>> videoPosts = [];
 
   @override
   void initState() {
@@ -53,6 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         postCount = snapshot.docs.length.toString();
         posts = snapshot.docs.map((doc) => doc.data()).toList();
+        imagePosts = posts.where((post) => post['isVideo'] == false).toList();
+        videoPosts = posts.where((post) => post['isVideo'] == true).toList();
       });
     }
   }
@@ -203,10 +206,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
-                        final imageUrl = posts[index]['imageUrl'] ?? '';
-                        return imageUrl.isNotEmpty
-                            ? Image.network(imageUrl, fit: BoxFit.cover)
-                            : Container(color: Colors.grey);
+                        final post = posts[index];
+                        final isVideo = post['isVideo'] ?? false;
+                        final displayUrl = isVideo
+                            ? post['thumbnailUrl'] ?? ''
+                            : post['imageUrl'] ?? '';
+
+                        return Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            displayUrl.isNotEmpty
+                                ? Image.network(displayUrl, fit: BoxFit.cover)
+                                : Container(color: Colors.grey),
+
+                            if (isVideo)
+                              Positioned(
+                                top: 6,
+                                right: 6,
+                                child: Icon(
+                                  Icons.play_circle_fill,
+                                  color: Colors.white,
+                                ),
+                              ),
+                          ],
+                        );
                       },
                     ),
 
@@ -218,9 +241,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 2,
                       ),
-                      itemCount: 0,
+                      itemCount: imagePosts.length,
                       itemBuilder: (context, index) {
-                        return Container(color: Colors.grey);
+                        final imageUrl = imagePosts[index]['imageUrl'] ?? '';
+
+                        return imageUrl.isNotEmpty
+                            ? Image.network(imageUrl, fit: BoxFit.cover)
+                            : Container(color: Colors.grey);
                       },
                     ),
 
@@ -232,9 +259,28 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 2,
                       ),
-                      itemCount: 0,
+                      itemCount: videoPosts.length,
                       itemBuilder: (context, index) {
-                        return Container(color: Colors.grey);
+                        final thumbnailUrl =
+                            videoPosts[index]['thumbnailUrl'] ?? '';
+
+                        return Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            thumbnailUrl.isNotEmpty
+                                ? Image.network(thumbnailUrl, fit: BoxFit.cover)
+                                : Container(color: Colors.grey),
+
+                            Positioned(
+                              top: 6,
+                              right: 6,
+                              child: Icon(
+                                Icons.play_circle_fill,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        );
                       },
                     ),
                   ],
