@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required String uid});
+  final String uid;
+  const ProfilePage({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -30,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> loadUserData() async {
     final doc = await FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(widget.uid)
         .get();
 
     if (mounted) {
@@ -47,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> loadPostData() async {
     final snapshot = await FirebaseFirestore.instance
         .collection('posts')
-        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('uid', isEqualTo: widget.uid)
         .get();
 
     if (mounted) {
