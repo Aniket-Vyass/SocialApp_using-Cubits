@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:small_social_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:small_social_app/features/home/presentation/profile/presentation/pages/profile/presentation/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -47,7 +47,7 @@ class MyDrawer extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProfilePage(
-                        uid: context.read<AuthCubit>().currentUser!.uid,
+                        //uid: context.read<AuthCubit>().currentUser!.uid,
                       ),
                     ),
                   );
@@ -58,7 +58,7 @@ class MyDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(uid: ''),
+                      builder: (context) => ProfilePage(), //uid: ''
                     ),
                   );
                 },

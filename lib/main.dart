@@ -8,8 +8,8 @@ import 'package:small_social_app/features/auth/presentation/cubits/auth_states.d
 import 'package:small_social_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
 import 'package:small_social_app/features/home/presentation/pages/home_page.dart';
-import 'package:small_social_app/features/profile/data/firebase_profile_repo.dart';
-import 'package:small_social_app/features/profile/domain/repo/profile_repo.dart';
+import 'package:small_social_app/features/home/presentation/profile/data/firebase_profile_repo.dart';
+import 'package:small_social_app/features/home/presentation/profile/domain/repo/profile_repo.dart';
 import 'package:small_social_app/themes/darkmode.dart';
 import 'package:small_social_app/themes/lightmode.dart';
 

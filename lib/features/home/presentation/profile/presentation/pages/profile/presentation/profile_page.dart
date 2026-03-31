@@ -2,10 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:small_social_app/a/userpostsfeed.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
-  const ProfilePage({Key? key, required this.uid}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -19,6 +19,8 @@ class _ProfilePageState extends State<ProfilePage> {
   List<Map<String, dynamic>> posts = [];
   List<Map<String, dynamic>> imagePosts = [];
   List<Map<String, dynamic>> videoPosts = [];
+  bool showFeed = true;
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> loadUserData() async {
     final doc = await FirebaseFirestore.instance
         .collection('users')
-        .doc(widget.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     if (mounted) {
@@ -48,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> loadPostData() async {
     final snapshot = await FirebaseFirestore.instance
         .collection('posts')
-        .where('uid', isEqualTo: widget.uid)
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     if (mounted) {
@@ -213,23 +215,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? post['thumbnailUrl'] ?? ''
                             : post['imageUrl'] ?? '';
 
-                        return Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            displayUrl.isNotEmpty
-                                ? Image.network(displayUrl, fit: BoxFit.cover)
-                                : Container(color: Colors.grey),
-
-                            if (isVideo)
-                              Positioned(
-                                top: 6,
-                                right: 6,
-                                child: Icon(
-                                  Icons.play_circle_fill,
-                                  color: Colors.white,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => Userpostsfeed(
+                                  //   uid: FirebaseAuth.instance.currentUser!.uid,
+                                  //   initialIndex: index,
                                 ),
                               ),
-                          ],
+                            );
+                          },
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              displayUrl.isNotEmpty
+                                  ? Image.network(displayUrl, fit: BoxFit.cover)
+                                  : Container(color: Colors.grey),
+
+                              if (isVideo)
+                                Positioned(
+                                  top: 6,
+                                  right: 6,
+                                  child: Icon(
+                                    Icons.play_circle_fill,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                            ],
+                          ),
                         );
                       },
                     ),
