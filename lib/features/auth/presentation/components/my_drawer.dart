@@ -47,6 +47,7 @@ class MyDrawer extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProfilePage(
+                        onPostTap: (int index, posts) {},
                         //uid: context.read<AuthCubit>().currentUser!.uid,
                       ),
                     ),
@@ -58,7 +59,9 @@ class MyDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(), //uid: ''
+                      builder: (context) => ProfilePage(
+                        onPostTap: (int index, posts) {},
+                      ), //uid: ''
                     ),
                   );
                 },
