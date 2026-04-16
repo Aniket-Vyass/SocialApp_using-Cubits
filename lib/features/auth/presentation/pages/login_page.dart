@@ -1,6 +1,5 @@
 /*
 
-
 On this page user can login with their:
   -email
   -pw
