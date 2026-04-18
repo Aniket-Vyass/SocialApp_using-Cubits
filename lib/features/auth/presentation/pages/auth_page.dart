@@ -8,7 +8,6 @@ Auth Page - Determines whether to show login or register page
 
 import 'package:flutter/material.dart';
 //import 'package:small_social_app/features/auth/presentation/pages/login.dart';
-import 'package:small_social_app/a/post.dart';
 import 'package:small_social_app/features/auth/presentation/pages/login_page.dart';
 import 'package:small_social_app/features/auth/presentation/pages/register_page.dart';
 
