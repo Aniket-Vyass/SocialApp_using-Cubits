@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:small_social_app/features/home/presentation/profile/presentation/pages/profile/presentation/profile_page.dart';
+import 'package:small_social_app/features/post/presentation/profile/presentation/pages/profile/presentation/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});

@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:small_social_app/features/home/presentation/pages/home_page.dart';
+import 'package:small_social_app/features/post/presentation/pages/home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final void Function(int index, dynamic posts) onPostTap;
