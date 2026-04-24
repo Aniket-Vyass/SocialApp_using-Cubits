@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:small_social_app/features/auth/presentation/components/my_drawer_tile.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:small_social_app/features/post/presentation/profile/presentation/pages/profile/presentation/profile_page.dart';
+import 'package:small_social_app/features/home/presentation/components/my_drawer_tile.dart';
+import 'package:small_social_app/profile/presentation/pages/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -45,12 +45,7 @@ class MyDrawer extends StatelessWidget {
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                        onPostTap: (int index, posts) {},
-                        //uid: context.read<AuthCubit>().currentUser!.uid,
-                      ),
-                    ),
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
 
                   //get current user id
@@ -59,9 +54,7 @@ class MyDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                        onPostTap: (int index, posts) {},
-                      ), //uid: ''
+                      builder: (context) => ProfilePage(), //uid: ''
                     ),
                   );
                 },
