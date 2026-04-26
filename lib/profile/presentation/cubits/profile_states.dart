@@ -4,6 +4,8 @@ PROFILE STATES
 
 */
 
+import 'package:small_social_app/profile/domain/entities/profile_user.dart';
+
 abstract class ProfileStates {}
 
 //initial
@@ -13,7 +15,13 @@ class ProfileInitial extends ProfileStates {}
 class ProfileLoading extends ProfileStates {}
 
 //loaded
-class ProfileLoaded extends ProfileStates {}
+class ProfileLoaded extends ProfileStates {
+  final ProfileUser profileUser;
+  ProfileLoaded(this.profileUser);
+}
 
 //error
-class ProfileError extends ProfileStates {}
+class ProfileError extends ProfileStates {
+  final String message;
+  ProfileError(this.message);
+}
