@@ -41,11 +41,15 @@ class MyDrawer extends StatelessWidget {
                 title: 'P R O F I L E',
                 icon: Icons.home,
                 onTap: () {
+                  //
+
                   //pop menu drawer
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(uid: ''),
+                    ),
                   );
 
                   //get current user id
@@ -54,7 +58,7 @@ class MyDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(), //uid: ''
+                      builder: (context) => ProfilePage(uid: ''), //uid: ''
                     ),
                   );
                 },

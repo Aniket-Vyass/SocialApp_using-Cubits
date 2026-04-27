@@ -1,9 +1,3 @@
-/*
-
-PROFILE CUBITS
-
-*/
-
 import 'package:bloc/bloc.dart';
 import 'package:small_social_app/profile/domain/repo/profile_repo.dart';
 import 'package:small_social_app/profile/presentation/cubits/profile_states.dart';
@@ -34,11 +28,11 @@ class ProfileCubit extends Cubit<ProfileStates> {
     emit(ProfileLoading());
 
     try {
-      //fetch current profile first
+      //fetch current user
       final currentUser = await profileRepo.fetchUserProfile(uid);
 
       if (currentUser == null) {
-        emit(ProfileError("Failed to fetch user Profile update"));
+        emit(ProfileError("Failed to fetch user for profile update"));
         return;
       }
 
@@ -50,13 +44,12 @@ class ProfileCubit extends Cubit<ProfileStates> {
       );
 
       //update in repo
-
       await profileRepo.updateProfile(updatedProfile);
 
       //re-fetch the updated profile
       await fetchUserProfile(uid);
     } catch (e) {
-      emit(ProfileError("Error updating profile: $e"));
+      emit(ProfileError('Failed to update profile: $e'));
     }
   }
 }
