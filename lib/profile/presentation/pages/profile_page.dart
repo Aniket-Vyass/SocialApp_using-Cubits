@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/domain/entities/app_user.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_states.dart';
+import 'package:small_social_app/profile/presentation/cubits/profile_cubits.dart';
+import 'package:small_social_app/profile/presentation/cubits/profile_states.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -34,8 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
   //Build UI
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
-      builder: (BuildContext context, state) {
+    return BlocBuilder<ProfileCubit, ProfileStates>(
+      builder: (context, state) {
         //loaded
         if (state is ProfileLoaded) {
           return Scaffold(
@@ -53,7 +53,9 @@ class _ProfilePageState extends State<ProfilePage> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          return;
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
       },
     );
