@@ -38,13 +38,61 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, state) {
         //loaded
         if (state is ProfileLoaded) {
+          //get loaded user
+          final user = state.profileUser;
           return Scaffold(
             appBar: AppBar(
-              title: Text(currentUser!.email),
+              title: Text(user.name),
               backgroundColor: Theme.of(context).colorScheme.primary,
             ),
 
             //BODY
+            body: Column(
+              children: [
+                Center(
+                  child: Text(
+                    user.email,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                //profile picture
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  height: 120,
+                  width: 120,
+                  padding: EdgeInsets.all(20),
+                  child: Center(
+                    child: Icon(
+                      Icons.person,
+                      size: 72,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                // bio box
+                Row(
+                  children: [
+                    Text(
+                      'Bio',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         }
         //loading...
