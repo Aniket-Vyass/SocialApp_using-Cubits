@@ -16,7 +16,8 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.authRepo}) : super(AuthInitial());
 
   // get current user
-  AppUser? get currentUser => _currentUser;
+  AppUser? get currentUser =>
+      _currentUser; //currentUser returns whatever _currentUser holds
 
   // Check if the user is authenticated
   /*Kaam kya karta hai:
@@ -54,7 +55,6 @@ App start hoti hai → checkAuth() chalta hai
       }
     } catch (e) {
       emit(AuthError(e.toString()));
-      emit(Unauthenticated());
     }
   }
 
@@ -72,7 +72,6 @@ App start hoti hai → checkAuth() chalta hai
       }
     } catch (e) {
       emit(AuthError(e.toString()));
-      emit(Unauthenticated());
     }
   }
 
