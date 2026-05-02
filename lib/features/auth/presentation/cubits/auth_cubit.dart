@@ -84,6 +84,7 @@ App start hoti hai → checkAuth() chalta hai
 
   //Forgot Password
   Future<String> forgotPassword(String email) async {
+    emit(AuthLoading());
     try {
       final message = await authRepo.sendPasswordResetEmail(email);
       return message;
@@ -100,7 +101,6 @@ App start hoti hai → checkAuth() chalta hai
       emit(Unauthenticated());
     } catch (e) {
       emit(AuthError(e.toString()));
-      emit(Unauthenticated());
     }
   }
 
