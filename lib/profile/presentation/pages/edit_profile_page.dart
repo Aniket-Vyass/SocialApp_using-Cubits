@@ -18,6 +18,19 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final bioTextController = TextEditingController();
 
+  //update profile button pressed
+  void updateProfile() async {
+    //Profile Cubit
+    final profileCubit = context.read<ProfileCubit>();
+
+    if (bioTextController.text.isNotEmpty) {
+      profileCubit.updateProfile(
+        uid: widget.user.uid,
+        newBio: bioTextController.text,
+      );
+    }
+  }
+
   //BUILD UI
   @override
   Widget build(BuildContext context) {
@@ -25,6 +38,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return BlocConsumer<ProfileCubit, ProfileState>(
       builder: (BuildContext context, ProfileState state) {
         //profile loading...
+        if (state is ProfileLoading) {
+          return const Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [CircularProgressIndicator(), Text("Uploading...")],
+              ),
+            ),
+          );
+        } else {
+          //edit form
+          return buildEditPage();
+        }
 
         //profile error...
 
@@ -32,7 +58,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
         return buildEditPage();
       },
-      listener: (BuildContext context, ProfileState state) {},
+      listener: (BuildContext context, ProfileState state) {
+        if (state is ProfileLoaded) {
+          Navigator.pop(context);
+        }
+      },
     );
   }
 
@@ -41,6 +71,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         title: const Text("Edit Profile"),
         foregroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          //save button
+          IconButton(onPressed: updateProfile, icon: const Icon(Icons.upload)),
+        ],
       ),
 
       body: Column(
@@ -49,6 +83,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
           // bio
           const Text('bio'),
+
+          const SizedBox(height: 10),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
