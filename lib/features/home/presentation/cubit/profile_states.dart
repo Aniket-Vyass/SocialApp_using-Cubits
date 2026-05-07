@@ -4,7 +4,7 @@
 
 */
 
-import 'package:small_social_app/profile/domain/entities/profile_user.dart';
+import 'package:small_social_app/features/profile/domain/entities/profile_user.dart';
 
 abstract class ProfileState {}
 

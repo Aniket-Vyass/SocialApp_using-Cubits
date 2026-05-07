@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
 import 'package:small_social_app/features/home/presentation/cubit/profile_states.dart';
-import 'package:small_social_app/profile/domain/entities/profile_user.dart';
+import 'package:small_social_app/features/profile/domain/entities/profile_user.dart';
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;
