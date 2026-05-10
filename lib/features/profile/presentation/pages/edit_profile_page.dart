@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:small_social_app/features/auth/presentation/components/my_textfield.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_states.dart';
 import 'package:small_social_app/features/profile/domain/entities/profile_user.dart';
+import 'package:small_social_app/features/profile/presentation/cubits/profile_cubits.dart';
+import 'package:small_social_app/features/profile/presentation/cubits/profile_states.dart';
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;
@@ -35,8 +34,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     //SCAFFOLD
-    return BlocConsumer<ProfileCubit, ProfileState>(
-      builder: (BuildContext context, ProfileState state) {
+    return BlocConsumer<ProfileCubit, ProfileStates>(
+      builder: (BuildContext context, ProfileStates state) {
         //profile loading...
         if (state is ProfileLoading) {
           return const Scaffold(
@@ -58,7 +57,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
         return buildEditPage();
       },
-      listener: (BuildContext context, ProfileState state) {
+      listener: (BuildContext context, ProfileStates state) {
         if (state is ProfileLoaded) {
           Navigator.pop(context);
         }

@@ -6,10 +6,10 @@ import 'package:small_social_app/features/auth/presentation/components/loading.d
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:small_social_app/features/auth/presentation/pages/auth_page.dart';
-import 'package:small_social_app/features/home/presentation/cubit/profile_cubit.dart';
 import 'package:small_social_app/features/home/presentation/pages/home_page.dart';
 import 'package:small_social_app/features/profile/data/firebase_profile_repo.dart';
-import 'package:small_social_app/features/profile/domain/repo/profile_repo.dart';
+import 'package:small_social_app/features/profile/presentation/cubits/profile_cubits.dart';
+import 'package:small_social_app/features/storage/data/firebase_storage_repo.dart';
 import 'package:small_social_app/themes/darkmode.dart';
 import 'package:small_social_app/themes/lightmode.dart';
 
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
 
   //profile repo
   final profileRepo = FirebaseProfileRepo();
+  final storageRepo = FirebaseStorageRepo();
 
   // This widget is the root of your application.
   @override
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
 
         //profile cubit
         BlocProvider<ProfileCubit>(
-          create: (context) => ProfileCubit(profileRepo: profileRepo),
+          create: (context) =>
+              ProfileCubit(profileRepo: profileRepo, storageRepo: storageRepo),
         ),
       ],
       child: MaterialApp(
