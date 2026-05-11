@@ -8,7 +8,7 @@ import 'package:small_social_app/features/profile/presentation/cubits/profile_st
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;
-  const EditProfilePage({Key? key, required this.user}) : super(key: key);
+  const EditProfilePage({super.key, required this.user});
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/home/presentation/components/my_drawer.dart';
-import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

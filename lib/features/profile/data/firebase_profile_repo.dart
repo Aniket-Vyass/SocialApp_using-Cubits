@@ -7,11 +7,15 @@ class FirebaseProfileRepo implements ProfileRepo {
   @override
   Future<ProfileUser?> fetchUserProfile(String uid) async {
     try {
+      print("FETCHING PROFILE FOR UID: $uid"); // 👈 check if uid is correct
       // get user doc from firestore
       final userDoc = await firebaseFirestore
           .collection('users')
           .doc(uid)
           .get();
+
+      print("DOC EXISTS: ${userDoc.exists}"); // 👈 check if doc is found
+      print("DOC DATA: ${userDoc.data()}"); // 👈 check what data is returned
 
       if (userDoc.exists) {
         final userData = userDoc.data();
@@ -20,17 +24,19 @@ class FirebaseProfileRepo implements ProfileRepo {
           return ProfileUser(
             uid: uid,
             email: userData['email'],
-            name: userData['name'],
+            name: userData['username'],
             bio: userData['bio'] ?? '',
-            profileImageUrl: userData['profileImageUrl'].toString(),
+            profileImageUrl:
+                userData['profileImage'] ?? '', //profileImageUrl in tutorial
           );
         }
       }
 
       return null;
-    } catch (e) {}
-    //TODO: implement fetchUserProfile
-    throw UnimplementedError();
+    } catch (e) {
+      print("ERROR: $e"); // 👈 see the actual error
+      throw Exception('Failed to fetch User Profile !');
+    }
   }
 
   @override

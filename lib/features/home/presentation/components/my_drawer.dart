@@ -11,6 +11,7 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+        //column should be wrapped with safearea
         backgroundColor: Theme.of(context).colorScheme.surface,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -41,24 +42,15 @@ class MyDrawer extends StatelessWidget {
                 title: 'P R O F I L E',
                 icon: Icons.home,
                 onTap: () {
-                  //
-
+                  //get current user id
+                  final user = context.read<AuthCubit>().currentUser;
+                  String? uid = user!.uid;
                   //pop menu drawer
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(uid: ''),
-                    ),
-                  );
-
-                  //get current user id
-                  final user = context.read<AuthCubit>().currentUser;
-                  String? uid = user!.uid;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfilePage(uid: ''), //uid: ''
+                      builder: (context) => ProfilePage(uid: uid),
                     ),
                   );
                 },
