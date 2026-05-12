@@ -94,12 +94,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //edit form
           return buildEditPage();
         }
-
-        //profile error...
-
-        //edit form...
-
-        return buildEditPage();
       },
       listener: (BuildContext context, ProfileStates state) {
         if (state is ProfileLoaded) {
@@ -109,7 +103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget buildEditPage({double uploadProgress = 0.0}) {
+  Widget buildEditPage() {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Profile"),
@@ -123,6 +117,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
       body: Column(
         children: [
           // profile picture
+          // Center(
+          //   child: Container(
+          //     // height: 200,
+          //     // width: 200,
+          //     decoration: BoxDecoration(
+          //       color: Theme.of(context).colorScheme.tertiary,
+          //       shape: BoxShape.circle,
+          //     ),
+          //   ),
+          // ),
 
           // bio
           const Text('bio'),
