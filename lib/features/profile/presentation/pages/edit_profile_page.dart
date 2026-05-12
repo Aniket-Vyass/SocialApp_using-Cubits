@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
@@ -117,16 +120,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
       body: Column(
         children: [
           // profile picture
-          // Center(
-          //   child: Container(
-          //     // height: 200,
-          //     // width: 200,
-          //     decoration: BoxDecoration(
-          //       color: Theme.of(context).colorScheme.tertiary,
-          //       shape: BoxShape.circle,
-          //     ),
-          //   ),
-          // ),
+          Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiary,
+                shape: BoxShape.circle,
+              ),
+              child:
+                  //display the selected image form mobile
+                  (!kIsWeb && imagePickedFile != null)
+                  ? Image.file(File(imagePickedFile!.path!))
+                  :
+                    //display selected image from web
+                    (kIsWeb && webImage == null)
+                  ? Image.memory(webImage!)
+                  :
+                    //no image selected -> display existing profile
+                    CachedNetworkImage(imageUrl: widget.user.profileImageUrl),
+            ),
+          ),
 
           // bio
           const Text('bio'),
