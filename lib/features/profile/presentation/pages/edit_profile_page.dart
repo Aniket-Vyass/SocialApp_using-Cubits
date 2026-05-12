@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/presentation/components/my_textfield.dart';
@@ -15,18 +18,59 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  // mobile image pick
+  PlatformFile? imagePickedFile;
+
+  // web image pick
+  Uint8List? webImage;
+
+  // bio text controller
   final bioTextController = TextEditingController();
+
+  // pick image
+  Future<void> pickImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      withData: kIsWeb,
+    );
+
+    if (result != null) {
+      setState(() {
+        imagePickedFile = result.files.first;
+
+        if (kIsWeb) {
+          webImage = imagePickedFile!.bytes;
+        }
+      });
+    }
+    // red line under the .images
+  }
 
   //update profile button pressed
   void updateProfile() async {
     //Profile Cubit
     final profileCubit = context.read<ProfileCubit>();
 
-    if (bioTextController.text.isNotEmpty) {
+    //prepare images
+    final String uid = widget.user.uid;
+    final String? newBio = bioTextController.text.isNotEmpty
+        ? bioTextController.text
+        : null;
+    final imageMobilePath = kIsWeb ? null : imagePickedFile?.path;
+    final imageWebBytes = kIsWeb ? imagePickedFile?.bytes : null;
+
+    //only update profile if there is something to update
+    if (imagePickedFile != null || newBio != null) {
       profileCubit.updateProfile(
         uid: widget.user.uid,
-        newBio: bioTextController.text,
+        newBio: newBio,
+        imageMobilePath: imageMobilePath,
+        imageWebBytes: imageWebBytes,
       );
+    }
+    //nothing to update -> go to previous page
+    else {
+      Navigator.pop(context);
     }
   }
 
