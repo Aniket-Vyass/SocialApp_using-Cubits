@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
@@ -119,7 +118,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       body: Column(
         children: [
-          // profile picture
+          //profile picture
           Center(
             child: Container(
               height: 200,
@@ -128,17 +127,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 color: Theme.of(context).colorScheme.tertiary,
                 shape: BoxShape.circle,
               ),
+              clipBehavior: Clip.hardEdge,
               child:
-                  //display the selected image form mobile
+                  //display the selected image for mobile
                   (!kIsWeb && imagePickedFile != null)
-                  ? Image.file(File(imagePickedFile!.path!))
+                  ? Image.file(File(imagePickedFile!.path!), fit: BoxFit.cover)
                   :
                     //display selected image from web
                     (kIsWeb && webImage == null)
-                  ? Image.memory(webImage!)
+                  ? Image.memory(webImage!, fit: BoxFit.cover)
                   :
                     //no image selected -> display existing profile
-                    CachedNetworkImage(imageUrl: widget.user.profileImageUrl),
+                    CachedNetworkImage(
+                      imageUrl: widget.user.profileImageUrl,
+                      //loading
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+
+                      //errro -> Filed to load
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.person,
+                        size: 72,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      //loaded
+                      imageBuilder: (context, imageProvider) =>
+                          Image(image: imageProvider),
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+
+          const SizedBox(height: 25),
+
+          //pick image button
+          Center(
+            child: MaterialButton(
+              onPressed: pickImage,
+              color: Colors.blue,
+              child: const Text('Pick Image'),
             ),
           ),
 
