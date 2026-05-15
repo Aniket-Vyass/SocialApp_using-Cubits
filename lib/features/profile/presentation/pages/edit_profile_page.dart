@@ -169,6 +169,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
 
+          const SizedBox(height: 10),
+
           // bio
           const Text('bio'),
 
