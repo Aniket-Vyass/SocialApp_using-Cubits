@@ -22,7 +22,7 @@ class PostCubit extends Cubit<PostState> {
     String? imageUrl;
 
     try {
-      // handle mobile platforms (using file path)
+      // handle image upload for mobile platforms (using file path)
       if (imagePath != null) {
         emit(PostUploading());
         imageUrl = await storageRepo.uploadProfileImageMobile(
@@ -30,16 +30,30 @@ class PostCubit extends Cubit<PostState> {
           post.id,
         );
       }
-      // handle mobile platforms (using file bytes)
+      // handle image upload for web platforms (using file bytes)
       else if (imageBytes != null) {
         emit(PostUploading());
         imageUrl = await storageRepo.uploadProfileImageWeb(imageBytes, post.id);
       }
 
       // give image url to post
-      //postRepo.createPost(newPost);
+      final newPost = post.copyWith(imageUrl: imageUrl);
+
+      //create post in the backend
+      postRepo.createPost(newPost);
     } catch (e) {
-      throw Exception('Failed to create post: $e');
+      emit(PostError('Failed to create post: $e'));
+    }
+  }
+
+  // fetch all posts
+  Future<void> fetchAllPosts() async {
+    try {
+      emit(PostLoading());
+      final posts = await postRepo.fetchAllPosts();
+      emit(PostsLoaded(posts));
+    } catch (e) {
+      emit(PostError('Failed to fetch all posts'));
     }
   }
 }
