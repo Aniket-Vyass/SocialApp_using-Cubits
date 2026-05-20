@@ -56,4 +56,13 @@ class PostCubit extends Cubit<PostState> {
       emit(PostError('Failed to fetch all posts'));
     }
   }
+
+  //delete a post
+  Future<void> deletePost(String postId) async {
+    try {
+      await postRepo.deletePost(postId);
+    } catch (e) {
+      emit(PostError('Failed to delete Post: $e'));
+    }
+  }
 }
