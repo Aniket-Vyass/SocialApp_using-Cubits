@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:small_social_app/features/auth/domain/entities/app_user.dart';
 import 'package:small_social_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:small_social_app/features/post/domain/enitites/post.dart';
+import 'package:small_social_app/features/post/presentation/cubits/post_cubit.dart';
 
 class UploadPostPage extends StatefulWidget {
   const UploadPostPage({super.key});
@@ -72,7 +73,18 @@ class _UploadPostPageState extends State<UploadPostPage> {
     }
 
     //create a new post object
-    // final newPost = Post(id: DateTime.now().millisecondsSinceEpoch.toString(), userId: currentUser!.uid, userName: '', text: '', imageUrl: '', timestamp: null)
+    final newPost = Post(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      userId: currentUser!.uid,
+      userName: currentUser!.name,
+      text: textController.text,
+      imageUrl: '',
+      timestamp: DateTime.now(),
+    );
+
+    //post cubit
+
+    final postCubit = context.read<PostCubit>();
   }
 
   // Build UI
